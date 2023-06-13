@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     /* Type Checking */
-    "strict": true, 
+    "strict": true,
     "noImplicitAny": true,
-    "skipLibCheck": true, 
-    "sourceMap": true, 
+    "skipLibCheck": true,
+    "sourceMap": true,
     // "baseUrl": "./",
     // "paths": {
     //   "@/*": ["src/*"],
     //   "@utils/*": ["src/utils/*"],
     //   "@components/*": ["src/components/*"],
     // }    
-  }
+  },
 }
