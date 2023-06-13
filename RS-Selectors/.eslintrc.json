@@ -24,6 +24,9 @@
     "prettier/prettier": "error",
     "no-tabs": ["error", {"allowIndentationTabs": true}],
     "import/no-default-export": "error",
+    "import/prefer-default-export": "off",
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/lines-between-class-members": "off",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-inferrable-types": "off",
@@ -52,6 +55,14 @@
       "error",
       40
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "./src"]]
+      }
+    },
+    "extensions": [".ts"]
   },
   "ignorePatterns": [
     "webpack.config.js"

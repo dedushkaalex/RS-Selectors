@@ -1,6 +1,5 @@
-const s = '12';
-const s1 = 2;
-if (true) {
-  console.log(s1);
+const s: any = '12';
+if (s) {
+  console.log(3);
 }
 console.log(s);

@@ -9,11 +9,11 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    // "baseUrl": "./",
-    // "paths": {
-    //   "@/*": ["src/*"],
-    //   "@utils/*": ["src/utils/*"],
-    //   "@components/*": ["src/components/*"],
-    // }    
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      // "@utils/*": ["src/utils/*"],
+      // "@components/*": ["src/components/*"],
+    }    
   },
 }

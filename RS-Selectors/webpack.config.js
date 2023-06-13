@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const { DefinePlugin } = require('webpack');
+const EslingPlugin = require('eslint-webpack-plugin');
 
 require('dotenv').config();
 const mode = process.env.NODE_ENV;
@@ -25,7 +26,8 @@ const plugins = [
   new MiniCssExtractPlugin({
     filename: isDev ? 'name.css' : '[name].[contenthash].css',
     chunkFilename: isDev ? '[id].css' : '[id].[contenthash].css',
-  })
+  }),
+  new EslingPlugin({ extensions: 'ts' }),
 ]
 module.exports = {
   context: path.resolve(__dirname, 'src'),
