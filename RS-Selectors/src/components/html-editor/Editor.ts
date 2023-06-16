@@ -12,6 +12,15 @@ export class Editor extends BaseComponent {
   }
 
   private render(): void {
+    const editorHeader = new BaseComponent({
+      tagName: 'div',
+      classList: [styles.editor__header]
+    });
+    editorHeader.node.insertAdjacentHTML(
+      'beforeend',
+      '<span>CSS Editor</span><span>style.css</span>'
+    );
+    this.node.append(editorHeader.node);
     const lineNumbers = new BaseComponent({
       tagName: 'div',
       classList: [styles.line__numbers]

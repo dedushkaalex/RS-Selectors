@@ -14,6 +14,7 @@ export class App extends BaseComponent {
 
   private leftCol;
   private rightCol;
+  private viewerWrapper;
   constructor() {
     super({
       tagName: 'div',
@@ -23,10 +24,16 @@ export class App extends BaseComponent {
     this.viewer = new HTMLViewer();
     this.editor = new Editor();
 
+    this.viewerWrapper = new BaseComponent({
+      tagName: 'div',
+      classList: ['html__wrapper'],
+      children: [this.editor, this.viewer]
+    });
+
     this.leftCol = new BaseComponent({
       tagName: 'div',
       classList: ['left-col'],
-      children: [new Header(), this.editor]
+      children: [new Header(), this.viewerWrapper]
     });
     this.rightCol = new BaseComponent({
       tagName: 'div',

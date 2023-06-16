@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+
+.line__numbers {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: $white;
+  padding: 1.5rem;
+  background-color: $gray;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  &:nth-child(-n + 5) {
+    text-align: right;
+  }
+}
