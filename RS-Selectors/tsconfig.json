@@ -7,13 +7,14 @@
     /* Type Checking */
     "strict": true,
     "noImplicitAny": true,
+    "declaration": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-      // "@utils/*": ["src/utils/*"],
-      // "@components/*": ["src/components/*"],
-    }    
-  },
+      "@core/*": ["src/core/*"],
+      "@components/*": ["src/components/*"],
+    },
+  }
 }

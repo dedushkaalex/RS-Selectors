@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const { DefinePlugin } = require('webpack');
@@ -10,12 +9,10 @@ const EslingPlugin = require('eslint-webpack-plugin');
 require('dotenv').config();
 const mode = process.env.NODE_ENV;
 const isDev = mode === 'development';
-
 const plugins = [
   new DefinePlugin({
     'process.env': JSON.stringify(process.env)
   }),
-  new CleanWebpackPlugin(),
   new HtmlWebpackPlugin({
     template: 'index.html',
     minify: {
@@ -31,17 +28,19 @@ const plugins = [
 ]
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  mode: mode,
+  mode,
   entry: './index.ts',
   output: {
     filename: isDev ? '[name].js' : '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: 'public/[name].[contenthash][ext][query]'
+    assetModuleFilename: 'public/[name].[contenthash][ext][query]',
+    clean: true,
   },
   resolve: {
     extensions: ['.js','.ts'],
     alias: {
-      '@': path.resolve(__dirname, 'src/')
+      '@': path.resolve(__dirname, 'src/'),
+      '@components': path.resolve(__dirname, 'src/components/')
     }
   },
   devtool: isDev ? 'source-map' : false,
@@ -71,18 +70,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.html$/i,
-        loader: 'html-loader'
-      },
-      {
-        test: /\.js$/,
+        test: /\.ts?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
       },
       {
         test: /\.module\.s[ac]ss$/i,
@@ -133,16 +123,6 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-      },
-      {
-        test: /\.m?js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
       },
 
     ]

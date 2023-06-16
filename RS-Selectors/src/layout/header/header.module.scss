@@ -1,0 +1,43 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.header {
+  padding-top: 2rem;
+}
+.container {
+  padding: 0 2rem;
+  margin: 0 auto;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.menu__item {
+  text-decoration: none;
+  &:hover a > img {
+    filter: drop-shadow(0rem 0rem 0.75rem $white);
+  }
+}
+.menu__item img {
+  width: 4rem;
+  @include transition(filter 0.5s);
+}
+
+.header-title {
+  font-size: 2.2rem;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  @include transition(color 0.5s, text-shadow 0.5s);
+  &:hover {
+    color: $white;
+    text-shadow: $white 1px 0 2rem;
+  }
+}
+.menu-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 15px;
+}

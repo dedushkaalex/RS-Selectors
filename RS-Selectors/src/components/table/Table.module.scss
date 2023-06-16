@@ -1,0 +1,25 @@
+$basename: 'table-';
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.#{$basename}wrapper {
+  min-height: 142px;
+  transform-origin: bottom;
+  z-index: 9999;
+  position: relative;
+  margin: 10px auto 0 auto;
+}
+
+.table-surface {
+  box-shadow: 0px 40px 10px rgba(0, 0, 0, 0.2);
+  background: #dd992d;
+  background: -webkit-linear-gradient(#dd992d, #cd8c26);
+  background: linear-gradient(#dd992d, #cd8c26);
+  position: absolute;
+  height: 500px;
+  bottom: 0;
+  width: 500px;
+}

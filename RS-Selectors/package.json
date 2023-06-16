@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack serve --mode development --open",
-    "build": "webpack serve --mode production",
+    "dev": "npx webpack serve --mode development --open",
+    "build": "set NODE_ENV=production && npx webpack --mode production",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
@@ -19,13 +19,9 @@
   },
   "homepage": "https://github.com/rolling-scopes-school/dedushkaalex-JSFE2023Q1#readme",
   "devDependencies": {
-    "@babel/core": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
-    "babel-loader": "^9.1.2",
-    "clean-webpack-plugin": "^4.0.0",
     "commitizen": "^4.3.0",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.0",
@@ -38,7 +34,6 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-webpack-plugin": "^4.0.1",
-    "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss": "^8.4.24",

@@ -1,0 +1,37 @@
+@import './reset';
+@import './variables';
+@import './mixins';
+
+html {
+  font-size: 10px;
+}
+
+body {
+  background-color: $main-bg;
+  font-size: 1.6rem;
+  color: $main-color;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.left-col {
+  width: calc(100% - 375px);
+  text-align: center;
+  overflow-x: visible;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.right-col {
+  position: fixed;
+  width: 375px;
+  right: 0;
+  overflow: auto;
+  top: 40px;
+  top: 0;
+  bottom: 0;
+  background: $black;
+  z-index: 1;
+}
