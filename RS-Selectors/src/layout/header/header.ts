@@ -29,14 +29,10 @@ export class Header extends BaseComponent {
       classList: [styles.nav],
       children: [headerTitle, menuList]
     });
-    const container = new BaseComponent({
-      tagName: 'div',
-      classList: [styles.container],
-      children: [headerNav]
-    });
+
     headerTitle.node.href = '#';
     menuList.node.insertAdjacentHTML('beforeend', this.menuItem());
-    this.node.append(container.node);
+    this.node.append(headerNav.node);
   }
 
   private menuItem(): string {

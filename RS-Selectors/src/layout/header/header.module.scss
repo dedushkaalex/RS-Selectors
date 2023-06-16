@@ -2,11 +2,7 @@
 @import '../../styles/variables';
 
 .header {
-  padding-top: 2rem;
-}
-.container {
-  padding: 0 2rem;
-  margin: 0 auto;
+  padding: 2rem 0;
 }
 .nav {
   display: flex;
@@ -16,12 +12,13 @@
 .menu__item {
   text-decoration: none;
   &:hover a > img {
-    filter: drop-shadow(0rem 0rem 0.75rem $white);
+    filter: drop-shadow(0rem 0rem 0.8rem $light-orange);
+    scale: 1.2;
   }
 }
 .menu__item img {
   width: 4rem;
-  @include transition(filter 0.5s);
+  @include transition(scale 0.5s, filter 0.7s);
 }
 
 .header-title {

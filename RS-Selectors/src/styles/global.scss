@@ -6,6 +6,11 @@ html {
   font-size: 10px;
 }
 
+.container {
+  padding: 0 2rem;
+  margin: 0 auto;
+}
+
 body {
   background-color: $main-bg;
   font-size: 1.6rem;
@@ -14,6 +19,8 @@ body {
 }
 
 .left-col {
+  padding: 0 40px;
+  margin: 0 auto;
   width: calc(100% - 375px);
   text-align: center;
   overflow-x: visible;

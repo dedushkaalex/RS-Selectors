@@ -1,0 +1,87 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.html__editor {
+  padding: 1rem 5rem 1rem 5rem;
+  position: relative;
+  min-height: 43.2rem;
+  width: 50%;
+  background-color: $white;
+  position: relative;
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.line__numbers {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: $white;
+  padding: 1.5rem;
+  background-color: $gray;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  &:nth-child(-n + 5) {
+    text-align: right;
+  }
+}
+.input__wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  perspective: 5000px;
+  min-height: 20px;
+}
+.input-strobe {
+  background-color: $gray;
+  animation: flashing 1s ease infinite;
+  width: 98%;
+  color: $light-orange;
+  font-weight: bold;
+  font-size: 1.8rem;
+  caret-color: red;
+  margin-left: 0.6rem;
+}
+.input-strobe:focus {
+  animation: none;
+  background-color: $white;
+}
+.input-strobe::placeholder {
+  color: $light-orange;
+  text-shadow: $light-orange 0.1rem 0 1rem;
+}
+@keyframes flashing {
+  50% {
+    background-color: $white;
+  }
+  100% {
+    background-color: $gray;
+  }
+}
+code {
+  color: black;
+  text-align: left;
+  padding-left: 0.5rem;
+  p {
+    position: relative;
+    line-height: 2rem;
+    white-space: pre-wrap;
+  }
+}
+.enter-button {
+  margin-left: 0.5rem;
+  background-color: $gray;
+  transform: rotateX(30deg);
+  border: solid 3px lighten($black, 5%);
+  border-width: 1px 1px 9px 1px;
+  border-radius: 2px;
+  padding: 0.5rem 0.8rem;
+}
+.enter-button:hover {
+  box-shadow: 0rem 0rem 1rem $black;
+  scale: 0.92;
+  color: lighten($gray, 60%);
+}
