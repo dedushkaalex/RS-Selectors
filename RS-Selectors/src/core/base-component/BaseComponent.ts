@@ -4,7 +4,7 @@ type Props<T extends keyof HTMLElementTagNameMap> = {
   tagName?: T;
   classList?: string[];
   textContent?: string;
-  children?: BaseComponent<T>[];
+  children?: BaseComponent<keyof HTMLElementTagNameMap>[];
 };
 /**
  * @params {}

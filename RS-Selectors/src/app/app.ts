@@ -3,14 +3,13 @@ import { BaseComponent } from '@/core';
 import { Editor } from '@/components/html-editor/Editor';
 import { HTMLViewer } from '@/components/html-viewer/HTMLViewer';
 
-// import '@/styles/global.scss';
 import { Table } from '@/components';
 import { Header } from '@/layout';
 
 export class App extends BaseComponent {
-  public table: BaseComponent;
-  public viewer: BaseComponent;
-  public editor: BaseComponent;
+  public table = new Table();
+  public viewer = new HTMLViewer();
+  public editor = new Editor();
 
   private leftCol;
   private rightCol;
@@ -20,9 +19,6 @@ export class App extends BaseComponent {
       tagName: 'div',
       classList: ['main']
     });
-    this.table = new Table();
-    this.viewer = new HTMLViewer();
-    this.editor = new Editor();
 
     this.viewerWrapper = new BaseComponent({
       tagName: 'div',
@@ -33,7 +29,7 @@ export class App extends BaseComponent {
     this.leftCol = new BaseComponent({
       tagName: 'div',
       classList: ['left-col'],
-      children: [new Header(), this.viewerWrapper]
+      children: [new Header(), this.table, this.viewerWrapper]
     });
     this.rightCol = new BaseComponent({
       tagName: 'div',

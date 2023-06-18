@@ -26,8 +26,9 @@ export class HTMLViewer extends BaseComponent {
       classList: [styles.line__numbers]
     });
     this.node.append(lineNumbers.node);
-    for (let i = 0; i < 20; i += 1) {
-      lineNumbers.node.innerHTML += `<span>${i + 1}</span>`;
-    }
+    const arrayNumbers = Array(17)
+      .fill(0)
+      .map((_, index) => `<span>${index + 1}</span>`);
+    lineNumbers.node.innerHTML = arrayNumbers.join('');
   }
 }

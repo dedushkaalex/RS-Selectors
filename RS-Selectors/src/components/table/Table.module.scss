@@ -1,25 +1,126 @@
-$basename: 'table-';
 .game-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-perspective: 40rem;
+  transform: translate3d(0,0,0);
+  perspective: 40rem;
+  text-align: center;
+  position: relative;
+  padding-top: 1.5rem;
+  margin-bottom: 5rem;
 }
 
-.#{$basename}wrapper {
-  min-height: 142px;
+.table-wrapper {
+  margin-top: 1rem;
+  transform: rotateX(20deg);
+  min-height: 14.2rem;
   transform-origin: bottom;
   z-index: 9999;
   position: relative;
-  margin: 10px auto 0 auto;
+  margin: 1rem auto 0 auto;
+  width: 25rem
+}
+
+.table {
+  transform-style: preserve-3d;
+  outline: solid 1rem transparent;
+  margin: 0 auto 0 auto;
+  min-height: 14.2rem;
+  padding: 1.5rem 1.5rem 2.2rem 1.5rem;
+  display: inline-block;
+  z-index: 999;
+  position:relative;
+  white-space: nowrap;
 }
 
 .table-surface {
-  box-shadow: 0px 40px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4rem 1rem rgba(0,0,0,.2);
   background: #dd992d;
-  background: -webkit-linear-gradient(#dd992d, #cd8c26);
-  background: linear-gradient(#dd992d, #cd8c26);
+  background: -webkit-linear-gradient(#dd992d,#cd8c26);
+  background: linear-gradient(#dd992d,#cd8c26);
   position: absolute;
-  height: 500px;
+  height: 100%;
   bottom: 0;
-  width: 500px;
+  width: 100%;
+}
+
+.table plate {
+  z-index: 99999;
+}
+
+.table-edge  {
+  width: 25rem;
+  margin: 0 auto 1rem auto;
+  background: #ac741c;
+  height: 1.5rem;
+  transform: rotateX(-40deg);
+  transform-origin: top;
+  z-index: 2;
+}
+
+.table-leg {
+  width: 2.4rem;
+  height: 1rem;
+  background: #84570f;
+  position: absolute;
+  top: 1.5rem;
+}
+
+.table-leg:first-child {
+  left: 2rem;
+}
+
+.table-leg:last-child {
+  right: 2rem;
+}
+
+/* Tag treatment for the level helpers & examples */
+tag {
+  padding: 0 0.3rem;
+  color: #AAA;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+tag:before {
+  content: "<";
+}
+
+tag:after {
+  content: ">";
+}
+
+.nametags {
+  z-index: 1;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.nametag {
+  position: absolute;
+  bottom: -1.4rem;
+  color: black;
+  width: 8rem;
+  color: #09699b;
+  font-size: 2.2rem;
+  box-shadow: -0.3rem 0.4rem 0 rgba(0,0,0,.1);
+  background-image: url(../../assets/images/game/line.gif);
+  z-index: 9999;
+  padding: 3rem 0 0.2rem 0 ;
+  background-color: #c5d6dd;
+  transform: rotate(-4deg);
+  animation: slide .4s ease-out;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateY(-20px);
+    animation-timing-function: ease-out;
+  }
+  50% {
+    transform: translateY(2px) rotate(-4deg);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0px) rotate(-4deg);
+  }
 }
