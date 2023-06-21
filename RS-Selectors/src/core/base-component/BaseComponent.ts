@@ -1,17 +1,15 @@
-import { store } from '@/store';
-
 type Props<T extends keyof HTMLElementTagNameMap> = {
   tagName?: T;
   classList?: string[];
   textContent?: string;
   children?: BaseComponent<keyof HTMLElementTagNameMap>[];
 };
+
 /**
  * @params {}
  */
 export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
   public readonly node: HTMLElementTagNameMap[T];
-  protected store = store;
   constructor({
     tagName,
     classList = [],
@@ -32,6 +30,14 @@ export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
     ...children: Array<BaseComponent<U>>
   ): void {
     this.node.append(...children.map((component) => component.node));
+  }
+
+  public addClass(className: string): void {
+    this.node.classList.add(className);
+  }
+
+  public removeClass(className: string): void {
+    this.node.classList.remove(className);
   }
 
   public destroy(): void {

@@ -50,5 +50,48 @@ body {
   border: 10px solid darken($black, 5%);
   padding-top: 5rem;
   border-radius: 1rem;
-  // margin-bottom: 5rem;
+}
+
+.markup_text {
+  color: $light-orange;
+  padding-left: 0.5rem;
+}
+.hljs-tag {
+  padding-left: 1.5rem;
+  line-height: 2rem;
+}
+
+// .markup_code.hovered  * {
+//   color: #fff;
+//   font-weight: bold;
+// }
+
+/*CUSTOM ELEMENTS*/
+hobbit,
+cplus,
+javascript {
+  display: inline-block;
+  width: 125px;
+  height: 125px;
+  background-size: cover;
+  margin-right: 20px;
+  box-shadow: 0px 8px 0px rgba(0,0,0,.3);
+}
+
+hobbit {
+  background-image: url('../assets/images/game/hobbit.jpg');
+}
+cplus {
+  background-image: url('../assets/images/game/cplus.png');
+}
+javascript {
+  background-image: url('../assets/images/game/javascript.png');
+}
+.hovered {
+  box-shadow: 0 0 0 6px rgba(255,255,255,.4);
+}
+.markup_code.hover-viewer * {
+  color: #fff;
+  text-shadow: #fff 1px 1px 15px;
+  cursor: pointer;
 }

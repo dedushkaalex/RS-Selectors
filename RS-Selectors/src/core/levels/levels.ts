@@ -6,7 +6,7 @@ type Levels = {
   syntax: string;
   help: string;
   examples: string[];
-  boardMarkup: string;
+  boardMarkup: string[];
 };
 
 export const levels: Levels[] = [
@@ -14,17 +14,14 @@ export const levels: Levels[] = [
     helpTitle: 'Select elements by their type',
     selectorName: 'Type Selector',
     doThis: 'Select the plates',
-    selector: 'plate',
+    selector: 'sock',
     syntax: 'A',
     help: 'Selects all elements of type <strong>A</strong>. Type refers to the type of tag, so <tag>div</tag>, <tag>p</tag> and <tag>ul</tag> are all different element types.',
     examples: [
       '<strong>div</strong> selects all <tag>div</tag> elements.',
       '<strong>p</strong> selects all <tag>p</tag> elements.'
     ],
-    boardMarkup: `
-    <plate/>
-    <plate/>
-    `
+    boardMarkup: ['<sock class="red"/>', '<sock/>']
   },
   {
     doThis: 'Select the bento boxes',
@@ -37,11 +34,7 @@ export const levels: Levels[] = [
       '<strong>div</strong> selects all <tag>div</tag> elements.',
       '<strong>p</strong> selects all <tag>p</tag> elements.'
     ],
-    boardMarkup: `
-    <bento/>
-    <plate/>
-    <bento/>
-    `
+    boardMarkup: ['<sock/>', '<sock/>', '<sock/>']
   },
   {
     doThis: 'Select the fancy plate',
@@ -54,10 +47,6 @@ export const levels: Levels[] = [
       '<strong>#cool</strong> selects any element with <strong>id="cool"</strong>',
       '<strong>ul#long</strong> selects <tag>ul id="long"</tag>'
     ],
-    boardMarkup: `
-    <plate id="fancy"/>
-    <plate/>
-    <bento/>
-    `
+    boardMarkup: ['<sock id="cool"/>', '<sock/>', '<sock/>']
   }
 ];

@@ -2,14 +2,14 @@ import { BaseComponent } from '@/core';
 
 import styles from './Editor.module.scss';
 
-import { EDITOR_TEXT } from './models/constants';
+import { EDITOR_TEXT } from './models';
 import {
   createLineNumbers,
   editorHeader,
   enterButton,
   inputStrobe,
   inputWrapper
-} from './ui/EditorUi';
+} from './ui';
 
 export class Editor extends BaseComponent {
   protected enterButton = enterButton;

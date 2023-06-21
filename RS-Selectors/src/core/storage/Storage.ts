@@ -1,17 +1,10 @@
-interface IStorage {
-  setItem(key: string, value: string): void;
-  removeItem(key: string): void;
-  getItem(key: string): unknown;
-  clear(): void;
-}
-
-export class Storage implements IStorage {
+class Storage {
   /**
    * Saves an item in localstorage with the provided key and value
    * @param {string} key - The key under which the value will be
    * @param {any} value - The value to be stored
    */
-  public setItem(key: string, value: string): void {
+  public setItem<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
@@ -40,3 +33,5 @@ export class Storage implements IStorage {
     localStorage.clear();
   }
 }
+
+export const storage = new Storage();

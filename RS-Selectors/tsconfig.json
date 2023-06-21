@@ -6,6 +6,7 @@
     "forceConsistentCasingInFileNames": true,
     /* Type Checking */
     "strict": true,
+    "declaration": false,
     "noImplicitAny": true,
     "declaration": true,
     "skipLibCheck": true,
@@ -16,5 +17,6 @@
       "@core/*": ["src/core/*"],
       "@components/*": ["src/components/*"],
     },
+    "outDir": "dist"
   }
 }

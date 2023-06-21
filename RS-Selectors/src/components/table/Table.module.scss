@@ -16,7 +16,7 @@
   z-index: 9999;
   position: relative;
   margin: 1rem auto 0 auto;
-  width: 25rem
+  max-width: 75rem;
 }
 
 .table {
@@ -47,7 +47,7 @@
 }
 
 .table-edge  {
-  width: 25rem;
+  max-width: 75rem;
   margin: 0 auto 1rem auto;
   background: #ac741c;
   height: 1.5rem;

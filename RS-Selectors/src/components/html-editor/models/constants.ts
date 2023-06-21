@@ -9,5 +9,4 @@ export const EDITOR_TEXT = `
 
 </code>
 `;
-
 export const EDITOR_HEADING = '<span>CSS Editor</span><span>style.css</span>';
