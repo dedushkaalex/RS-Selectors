@@ -20,17 +20,53 @@ export const GAME_CONFIG = [
   ],
   [
     {
-      tagName: 'cplus',
+      tagName: 'hobbit',
       className: [],
       children: []
     },
     {
       tagName: 'cplus',
       className: [],
-      children: []
+      children: [
+        {
+          tagName: 'groming',
+          className: [],
+          children: [
+            {
+              tagName: 'javascript',
+              className: ['a'],
+              children: [
+                {
+                  tagName: 'cplus',
+                  className: [],
+                  children: [
+                    {
+                      tagName: 'cplus',
+                      className: [],
+                      children: [
+                        {
+                          tagName: 'cplus',
+                          className: [],
+                          children: [
+                            {
+                              tagName: 'hobbit',
+                              className: [],
+                              children: []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      tagName: 'cplus',
+      tagName: 'javascript',
       className: [],
       children: []
     }

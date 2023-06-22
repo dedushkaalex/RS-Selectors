@@ -10,6 +10,11 @@ export const nameTags = new BaseComponent({
   tagName: 'div',
   classList: [styles.nametags]
 });
+export const helper = new BaseComponent({
+  tagName: 'div',
+  classList: ['helper']
+});
+
 export const table = new BaseComponent({
   tagName: 'div',
   classList: [styles.table]

@@ -51,6 +51,7 @@
   width: 100%;
   perspective: 5000px;
   min-height: 20px;
+  position: relative;
 }
 .input-strobe {
   background-color: $gray;
@@ -61,6 +62,8 @@
   font-size: 1.8rem;
   caret-color: red;
   margin-left: 0.6rem;
+  position: relative;
+  z-index: 3;
 }
 .input-strobe:focus {
   animation: none;

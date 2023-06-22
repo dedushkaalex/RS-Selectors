@@ -43,4 +43,8 @@ export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
   public destroy(): void {
     this.node.remove();
   }
+
+  public addTextContent(text: string): void {
+    this.node.textContent = text;
+  }
 }

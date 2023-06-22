@@ -11,6 +11,9 @@ import {
   inputWrapper
 } from './ui';
 
+const hljs = require('highlight.js/lib/core');
+hljs.registerLanguage('css', require('highlight.js/lib/languages/css'));
+
 export class Editor extends BaseComponent {
   protected enterButton = enterButton;
   protected inputStrobe = inputStrobe;

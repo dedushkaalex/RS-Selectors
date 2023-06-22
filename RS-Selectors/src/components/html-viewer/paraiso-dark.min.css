@@ -1,14 +1,13 @@
 pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 1em;
 }
 code.hljs {
   padding: 3px 5px;
 }
 .hljs {
   background: transparent;
-  color: #a39e9b;
+  /* color: #a39e9b; */
   /* margin-top: 30px; */
   padding: 0.1rem;
   text-align: left;

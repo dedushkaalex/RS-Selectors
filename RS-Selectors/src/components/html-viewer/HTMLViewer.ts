@@ -1,8 +1,15 @@
+/* eslint-disable max-lines-per-function */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+/* eslint-disable prefer-const */
 import { BaseComponent, PropsCreateDOMElements, levels, storage } from '@/core';
 
 import { GAME_CONFIG } from '@/config/tableTemplateConfig';
 
 import styles from './Viewer.module.scss';
+
+import { helper } from '../table';
 
 import './paraiso-dark.min.css';
 import { lineNumbers, markupObserversWrapper, viewerHeader } from './ui';
@@ -14,6 +21,7 @@ hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'));
 export class HTMLViewer extends BaseComponent {
   private currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
+  private counter: number = 0;
   constructor() {
     super({
       tagName: 'div',
@@ -34,41 +42,97 @@ export class HTMLViewer extends BaseComponent {
         })
       ]
     });
-
-    this.render();
+    const level = this.configLevel[this.currentLevel];
+    this.createMarkupViewer(level, markupObserversWrapper);
   }
 
-  private render(): void {
-    const level = this.configLevel[this.currentLevel];
-
+  private createCodeHighlightWrapper(
+    item: PropsCreateDOMElements,
+    endTag: boolean = false
+  ): HTMLElement {
+    if (endTag) {
+      const pre = document.createElement('pre');
+      const code = document.createElement('code');
+      code.textContent = `<${item.tagName}/>`;
+      pre.append(code);
+      hljs.highlightElement(code);
+      return pre;
+    }
+    let templateTextContent;
+    if (item.children?.length && item.className.length) {
+      templateTextContent = `<${item.tagName} class='${item.className}'>`;
+    } else if (item.children?.length) {
+      templateTextContent = `<${item.tagName}>`;
+    } else {
+      templateTextContent = `<${item.tagName}/>`;
+    }
+    const pre = document.createElement('pre');
+    const code = document.createElement('code');
+    code.textContent = templateTextContent;
+    pre.append(code);
+    hljs.highlightElement(code);
+    return pre;
+  }
+  private createElementObserver(): BaseComponent {
+    const markupObserver = new BaseComponent({
+      tagName: 'div',
+      classList: ['markup_code']
+    });
+    markupObserver.node.style.paddingLeft = `${this.counter / 3}rem`;
+    // TODO: ПОТОМ это удалить
+    markupObserver.node.id = `${this.counter}`;
+    this.bindMouseEvent(markupObserver, this.counter);
+    this.bindEventListener(markupObserver, this.counter);
+    this.counter += 1;
+    return markupObserver;
+  }
+  public createMarkupViewer(
+    level: PropsCreateDOMElements[],
+    parent: BaseComponent
+  ): void {
     level.forEach((item, index) => {
-      const highLightElement = new BaseComponent({
-        tagName: 'pre',
-        classList: [],
-        children: [
-          new BaseComponent({
-            tagName: 'code',
-            textContent: `<${item.tagName}/>`
-          })
-        ]
-      });
-
-      const markupObserver = new BaseComponent({
-        tagName: 'div',
-        classList: ['markup_code'],
-        children: [highLightElement]
-      });
-
-      markupObserversWrapper.append(markupObserver);
-      hljs.highlightElement(highLightElement.node);
-
-      this.mouseEventHandlers(markupObserver, index);
-      this.eventListenerHandlers(markupObserver, index);
+      const preElement = this.createCodeHighlightWrapper(item);
+      const markupObserver = this.createElementObserver();
+      markupObserver.node.append(preElement);
+      parent.append(markupObserver);
+      if (item.children && item.children.length > 0) {
+        this.createMarkupViewer(item.children, markupObserver);
+        const preElementEnd = this.createCodeHighlightWrapper(item, true);
+        markupObserver.node.append(preElementEnd);
+      }
     });
   }
 
-  private eventListenerHandlers(elem: BaseComponent, index: number): void {
-    document.addEventListener(`hoverByTable-${index}`, () => {
+  // private render(): void {
+  //   const level = this.configLevel[this.currentLevel];
+
+  //   level.forEach((item, index) => {
+  //     const highLightElement = new BaseComponent({
+  //       tagName: 'pre',
+  //       classList: [],
+  //       children: [
+  //         new BaseComponent({
+  //           tagName: 'code',
+  //           textContent: item.children?.length
+  //             ? `<${item.tagName}>`
+  //             : `<${item.tagName}/>`
+  //         })
+  //       ]
+  //     });
+  //     const markupObserver = new BaseComponent({
+  //       tagName: 'div',
+  //       classList: ['markup_code'],
+  //       children: [highLightElement]
+  //     });
+  //     markupObserversWrapper.append(markupObserver);
+  //     hljs.highlightElement(highLightElement.node);
+
+  //     this.bindEventListener(markupObserver, index);
+  //     this.bindMouseEvent(markupObserver, index);
+  //   });
+  // }
+  private bindEventListener(elem: BaseComponent, index: number): void {
+    document.addEventListener(`hoverByTable-${index}`, (e) => {
       console.log('element');
       elem?.addClass('hover-viewer');
     });
@@ -79,13 +143,14 @@ export class HTMLViewer extends BaseComponent {
     });
   }
 
-  private mouseEventHandlers(elem: BaseComponent, index: number): void {
-    elem.node.onmouseover = (): void => {
+  private bindMouseEvent(elem: BaseComponent, index: number): void {
+    elem.node.onmouseover = (e): void => {
+      e.stopPropagation();
       elem?.addClass('hover-viewer');
       document.dispatchEvent(new CustomEvent(`hoverByViewer-${index}`));
     };
 
-    elem.node.onmouseleave = (): void => {
+    elem.node.onmouseout = (): void => {
       elem?.removeClass('hover-viewer');
       document.dispatchEvent(new CustomEvent(`cancelHoverByViewer-${index}`));
     };
