@@ -34,30 +34,12 @@ export const GAME_CONFIG = [
           children: [
             {
               tagName: 'javascript',
-              className: ['a'],
+              className: [],
               children: [
                 {
-                  tagName: 'cplus',
+                  tagName: 'javascript',
                   className: [],
-                  children: [
-                    {
-                      tagName: 'cplus',
-                      className: [],
-                      children: [
-                        {
-                          tagName: 'cplus',
-                          className: [],
-                          children: [
-                            {
-                              tagName: 'hobbit',
-                              className: [],
-                              children: []
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  children: []
                 }
               ]
             }

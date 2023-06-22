@@ -1,10 +1,4 @@
-import {
-  BaseComponent,
-  PropsCreateDOMElements,
-  createDOMElements,
-  levels,
-  storage
-} from '@/core';
+import { BaseComponent, PropsCreateDOMElements, levels, storage } from '@/core';
 
 import { GAME_CONFIG } from '@/config/tableTemplateConfig';
 
@@ -20,6 +14,7 @@ export class Table extends BaseComponent {
   private table = table;
   private helper = helper;
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
+  private counter = 0;
 
   constructor() {
     super({
@@ -31,18 +26,63 @@ export class Table extends BaseComponent {
     this.render();
   }
 
+  private createDOMElements<T extends PropsCreateDOMElements>(
+    config: Array<T>
+  ): Array<HTMLElement> {
+    const elements: Array<HTMLElement> = [];
+
+    for (let i = 0; i < config.length; i += 1) {
+      const { tagName, className, children }: PropsCreateDOMElements =
+        config[i];
+      const element = document.createElement(tagName);
+      element.id = `${this.counter}`;
+
+      this.bindMouseEvent(element, this.counter, `<${tagName}><${tagName}/>`);
+      this.bindEventListener(
+        element,
+        this.counter,
+        `<${tagName}><${tagName}/>`
+      );
+
+      this.counter += 1;
+
+      if (className && className.length > 0) {
+        element.classList.add(...className);
+      }
+
+      if (children && children.length > 0) {
+        const childElements = this.createDOMElements(children);
+        childElements.forEach((childElement, index) => {
+          element.appendChild(childElement);
+          if (i % 2 !== 0) {
+            childElement.style.rotate = '20deg';
+            childElement.style.transform = 'translateY(-1rem)';
+          }
+          if (i % 2 === 0) {
+            childElement.style.rotate = '-40deg';
+            childElement.style.transform = 'translateY(-1rem)';
+          }
+        });
+      }
+
+      elements.push(element);
+    }
+
+    return elements;
+  }
+
   private render(): void {
     const currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
 
-    const gameElements = createDOMElements(this.configLevel[currentLevel]);
+    const gameElements = this.createDOMElements(this.configLevel[currentLevel]);
     console.log(gameElements);
 
     const { node } = this.table;
 
     gameElements.forEach((item, index) => {
       const tagName = `${this.configLevel[currentLevel][index].tagName}`;
-      this.bindMouseEvent(item, +item.id, `<${tagName}><${tagName}/>`);
-      this.bindEventListener(item, +item.id, `<${tagName}><${tagName}/>`);
+      // this.bindMouseEvent(item, +item.id, `<${tagName}><${tagName}/>`);
+      // this.bindEventListener(item, +item.id, `<${tagName}><${tagName}/>`);
       node.append(item);
     });
   }
@@ -75,7 +115,8 @@ export class Table extends BaseComponent {
     textContent: string
   ): void {
     const { node } = this.helper;
-    elem.onmouseover = (): void => {
+    elem.onmouseover = (e): void => {
+      e.stopPropagation();
       const { x } = elem.getBoundingClientRect();
       if (!elem) throw new Error('');
       elem.classList.add('hovered');
@@ -87,7 +128,7 @@ export class Table extends BaseComponent {
       document.dispatchEvent(new CustomEvent(`hoverByTable-${index}`));
     };
 
-    elem.onmouseleave = (): void => {
+    elem.onmouseout = (e): void => {
       if (!elem) throw new Error('');
       elem.classList.remove('hovered');
       this.helper.removeClass('show');
