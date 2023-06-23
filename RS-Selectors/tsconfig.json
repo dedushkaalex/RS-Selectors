@@ -6,7 +6,6 @@
     "forceConsistentCasingInFileNames": true,
     /* Type Checking */
     "strict": true,
-    "declaration": false,
     "noImplicitAny": true,
     "declaration": true,
     "skipLibCheck": true,

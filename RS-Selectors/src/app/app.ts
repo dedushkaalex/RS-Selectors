@@ -5,7 +5,7 @@ import { Editor } from '@/components/html-editor/Editor';
 import { HTMLViewer } from '@/components/html-viewer/HTMLViewer';
 
 import { Table } from '@/components';
-import { CURRENT_LEVEL } from '@/constants/gameConstants';
+import { CURRENT_LEVEL, SELECTOR } from '@/constants/gameConstants';
 import { Header } from '@/layout';
 
 export class App extends BaseComponent {
@@ -42,7 +42,40 @@ export class App extends BaseComponent {
     });
     this.node.append(this.leftCol.node);
     this.node.append(this.rightCol.node);
-    // window.onload = (): void => this.emit('levels', {});
-    // console.log(...createDOMElements(LEVEL_1_ARR));
+    this.bindEditorEventListener();
+  }
+
+  private bindEditorEventListener(): void {
+    document.addEventListener('sendResultAnswer', (e) => {
+      const target = e as CustomEvent;
+
+      const selectorInputValue = target.detail.value;
+      const selectorStorageValue = storage.getItem(SELECTOR);
+      if (selectorInputValue === selectorStorageValue) {
+        console.log('You won');
+        storage.setItem(
+          CURRENT_LEVEL,
+          Number(storage.getItem(CURRENT_LEVEL)) + 1
+        );
+        this.table.gameSelectors.forEach((item) => {
+          this.setAnimation('clean', item);
+        });
+        this.isWinEvent();
+      } else {
+        this.setAnimation('shake', this.viewerWrapper.node);
+      }
+    });
+  }
+
+  private setAnimation<T extends HTMLElement>(
+    className: string,
+    element: T
+  ): void {
+    element.classList.add(className);
+    element.onanimationend = (): void => element.classList.remove(className);
+  }
+
+  private isWinEvent(): void {
+    document.dispatchEvent(new CustomEvent('isWin'));
   }
 }

@@ -24,5 +24,18 @@ export class Editor extends BaseComponent {
       children: [editorHeader, createLineNumbers(), inputWrapper]
     });
     this.node.insertAdjacentHTML('beforeend', EDITOR_TEXT);
+    this.inputStrobe.node.onkeydown = (e): void => {
+      const target = e as KeyboardEvent;
+      if (target.code === 'Enter') {
+        console.log(this.inputStrobe.node.value);
+        document.dispatchEvent(
+          new CustomEvent('sendResultAnswer', {
+            detail: {
+              value: this.inputStrobe.node.value
+            }
+          })
+        );
+      }
+    };
   }
 }

@@ -1,11 +1,19 @@
 import { BaseComponent } from '@/core';
 
+export type PropsCreateDOMElements = {
+  tagName: string;
+  className: string[];
+  textContent?: string;
+  children?: PropsCreateDOMElements[];
+  isGameTarget?: string;
+};
 export const GAME_CONFIG = [
   [
     {
       tagName: 'hobbit',
       className: [],
-      children: []
+      children: [],
+      isGameTarget: 'hobbit'
     },
     {
       tagName: 'cplus',
@@ -16,6 +24,12 @@ export const GAME_CONFIG = [
       tagName: 'javascript',
       className: [],
       children: []
+    },
+    {
+      tagName: 'hobbit',
+      className: [],
+      children: [],
+      isGameTarget: 'hobbit'
     }
   ],
   [

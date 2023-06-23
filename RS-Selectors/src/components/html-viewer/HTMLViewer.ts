@@ -3,13 +3,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /* eslint-disable prefer-const */
-import { BaseComponent, PropsCreateDOMElements, levels, storage } from '@/core';
+import { BaseComponent, levels, storage } from '@/core';
 
-import { GAME_CONFIG } from '@/config/tableTemplateConfig';
+import {
+  GAME_CONFIG,
+  PropsCreateDOMElements
+} from '@/config/tableTemplateConfig';
 
 import styles from './Viewer.module.scss';
-
-import { helper } from '../table';
 
 import './paraiso-dark.min.css';
 import { lineNumbers, markupObserversWrapper, viewerHeader } from './ui';
@@ -42,10 +43,21 @@ export class HTMLViewer extends BaseComponent {
         })
       ]
     });
-    const level = this.configLevel[this.currentLevel];
-    this.createMarkupViewer(level, markupObserversWrapper);
+    // const level = this.configLevel[this.currentLevel];
+    // this.createMarkupViewer(level, markupObserversWrapper);
+    this.render();
+
+    document.addEventListener('isWin', () => {
+      this.clear(markupObserversWrapper);
+      this.render();
+    });
   }
 
+  private render(): void {
+    const currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
+    const level = this.configLevel[currentLevel];
+    this.createMarkupViewer(level, markupObserversWrapper);
+  }
   private createCodeHighlightWrapper(
     item: PropsCreateDOMElements,
     endTag: boolean = false
@@ -103,34 +115,6 @@ export class HTMLViewer extends BaseComponent {
     });
   }
 
-  // private render(): void {
-  //   const level = this.configLevel[this.currentLevel];
-
-  //   level.forEach((item, index) => {
-  //     const highLightElement = new BaseComponent({
-  //       tagName: 'pre',
-  //       classList: [],
-  //       children: [
-  //         new BaseComponent({
-  //           tagName: 'code',
-  //           textContent: item.children?.length
-  //             ? `<${item.tagName}>`
-  //             : `<${item.tagName}/>`
-  //         })
-  //       ]
-  //     });
-  //     const markupObserver = new BaseComponent({
-  //       tagName: 'div',
-  //       classList: ['markup_code'],
-  //       children: [highLightElement]
-  //     });
-  //     markupObserversWrapper.append(markupObserver);
-  //     hljs.highlightElement(highLightElement.node);
-
-  //     this.bindEventListener(markupObserver, index);
-  //     this.bindMouseEvent(markupObserver, index);
-  //   });
-  // }
   private bindEventListener(elem: BaseComponent, index: number): void {
     document.addEventListener(`hoverByTable-${index}`, (e) => {
       console.log('element');

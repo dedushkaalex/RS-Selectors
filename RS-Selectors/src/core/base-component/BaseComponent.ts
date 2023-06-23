@@ -47,4 +47,8 @@ export class BaseComponent<T extends keyof HTMLElementTagNameMap = 'div'> {
   public addTextContent(text: string): void {
     this.node.textContent = text;
   }
+
+  public clear(el: BaseComponent): void {
+    el.node.textContent = '';
+  }
 }

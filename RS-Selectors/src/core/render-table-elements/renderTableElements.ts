@@ -1,4 +1,4 @@
-export type PropsCreateDOMElements = {
+type PropsCreateDOMElements = {
   tagName: string;
   className: string[];
   textContent?: string;

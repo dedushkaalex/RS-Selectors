@@ -1,11 +1,14 @@
-import { BaseComponent, PropsCreateDOMElements, levels, storage } from '@/core';
+import { BaseComponent, levels, storage } from '@/core';
 
-import { GAME_CONFIG } from '@/config/tableTemplateConfig';
+import {
+  GAME_CONFIG,
+  PropsCreateDOMElements
+} from '@/config/tableTemplateConfig';
 
 import styles from './Table.module.scss';
 
 import { helper, table, tableEdge, tableWrapper } from './ui/TableUi';
-import { CURRENT_LEVEL } from '@/constants/gameConstants';
+import { CURRENT_LEVEL, SELECTOR } from '@/constants/gameConstants';
 
 const hljs = require('highlight.js/lib/core');
 hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'));
@@ -16,6 +19,7 @@ export class Table extends BaseComponent {
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
   private counter = 0;
 
+  public gameSelectors: HTMLElement[] = [];
   constructor() {
     super({
       tagName: 'div',
@@ -24,6 +28,10 @@ export class Table extends BaseComponent {
     });
 
     this.render();
+    document.addEventListener('isWin', () => {
+      this.clear(this.table);
+      this.render();
+    });
   }
 
   private createDOMElements<T extends PropsCreateDOMElements>(
@@ -32,10 +40,19 @@ export class Table extends BaseComponent {
     const elements: Array<HTMLElement> = [];
 
     for (let i = 0; i < config.length; i += 1) {
-      const { tagName, className, children }: PropsCreateDOMElements =
-        config[i];
+      const {
+        tagName,
+        className,
+        children,
+        isGameTarget
+      }: PropsCreateDOMElements = config[i];
       const element = document.createElement(tagName);
       element.id = `${this.counter}`;
+      if (isGameTarget) {
+        element.classList.add('gameTarget');
+        storage.setItem(SELECTOR, isGameTarget);
+        this.gameSelectors.push(element);
+      }
 
       this.bindMouseEvent(element, this.counter, `<${tagName}><${tagName}/>`);
       this.bindEventListener(
@@ -80,9 +97,6 @@ export class Table extends BaseComponent {
     const { node } = this.table;
 
     gameElements.forEach((item, index) => {
-      const tagName = `${this.configLevel[currentLevel][index].tagName}`;
-      // this.bindMouseEvent(item, +item.id, `<${tagName}><${tagName}/>`);
-      // this.bindEventListener(item, +item.id, `<${tagName}><${tagName}/>`);
       node.append(item);
     });
   }
