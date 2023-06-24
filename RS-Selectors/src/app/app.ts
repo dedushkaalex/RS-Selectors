@@ -1,8 +1,9 @@
-import { BaseComponent, levels, storage } from '@/core';
+import { BaseComponent, storage } from '@/core';
 import { createDOMElements } from '@/core/render-table-elements/renderTableElements';
 
 import { Editor } from '@/components/html-editor/Editor';
 import { HTMLViewer } from '@/components/html-viewer/HTMLViewer';
+import { LevelList } from '@/components/level-list/LevelList';
 
 import { Table } from '@/components';
 import { CURRENT_LEVEL, SELECTOR } from '@/constants/gameConstants';
@@ -12,6 +13,7 @@ export class App extends BaseComponent {
   public table = new Table();
   public viewer = new HTMLViewer();
   public editor = new Editor();
+  public levelList = new LevelList();
 
   public currentLevel =
     storage.getItem(CURRENT_LEVEL) || storage.setItem(CURRENT_LEVEL, 0);
@@ -38,7 +40,8 @@ export class App extends BaseComponent {
     });
     this.rightCol = new BaseComponent({
       tagName: 'div',
-      classList: ['right-col']
+      classList: ['right-col'],
+      children: [this.levelList]
     });
     this.node.append(this.leftCol.node);
     this.node.append(this.rightCol.node);

@@ -1,4 +1,4 @@
-import { BaseComponent, levels, storage } from '@/core';
+import { BaseComponent, storage } from '@/core';
 
 import {
   GAME_CONFIG,
@@ -29,11 +29,18 @@ export class Table extends BaseComponent {
 
     this.render();
     document.addEventListener('isWin', () => {
-      this.clear(this.table);
-      this.render();
+      this.reRender();
+    });
+
+    document.addEventListener('changelvl', () => {
+      this.reRender();
     });
   }
 
+  private reRender(): void {
+    this.clear(this.table);
+    this.render();
+  }
   private createDOMElements<T extends PropsCreateDOMElements>(
     config: Array<T>
   ): Array<HTMLElement> {

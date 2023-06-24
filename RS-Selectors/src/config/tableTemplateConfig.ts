@@ -68,3 +68,15 @@ export const GAME_CONFIG = [
     }
   ]
 ];
+
+export type LevelDescription = {
+  name: string;
+};
+export const LEVEL_DESCRIPTION: LevelDescription[] = [
+  {
+    name: 'A'
+  },
+  {
+    name: 'B'
+  }
+];

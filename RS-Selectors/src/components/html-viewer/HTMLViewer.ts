@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /* eslint-disable prefer-const */
-import { BaseComponent, levels, storage } from '@/core';
+import { BaseComponent, storage } from '@/core';
 
 import {
   GAME_CONFIG,
@@ -48,8 +48,11 @@ export class HTMLViewer extends BaseComponent {
     this.render();
 
     document.addEventListener('isWin', () => {
-      this.clear(markupObserversWrapper);
-      this.render();
+      this.reRender();
+    });
+
+    document.addEventListener('changelvl', () => {
+      this.reRender();
     });
   }
 
@@ -57,6 +60,11 @@ export class HTMLViewer extends BaseComponent {
     const currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
     const level = this.configLevel[currentLevel];
     this.createMarkupViewer(level, markupObserversWrapper);
+  }
+
+  private reRender(): void {
+    this.clear(markupObserversWrapper);
+    this.render();
   }
   private createCodeHighlightWrapper(
     item: PropsCreateDOMElements,
