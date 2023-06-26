@@ -5,6 +5,11 @@ import { Editor } from '@/components/html-editor/Editor';
 import { HTMLViewer } from '@/components/html-viewer/HTMLViewer';
 import { LevelList } from '@/components/level-list/LevelList';
 
+import {
+  GAME_CONFIG,
+  PropsCreateDOMElements
+} from '@/config/tableTemplateConfig';
+
 import { Table } from '@/components';
 import { CURRENT_LEVEL, SELECTOR } from '@/constants/gameConstants';
 import { Header } from '@/layout';
@@ -15,8 +20,9 @@ export class App extends BaseComponent {
   public editor = new Editor();
   public levelList = new LevelList();
 
-  public currentLevel =
+  private currentLevel =
     storage.getItem(CURRENT_LEVEL) || storage.setItem(CURRENT_LEVEL, 0);
+  private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
 
   private leftCol;
   private rightCol;
@@ -56,14 +62,21 @@ export class App extends BaseComponent {
       const selectorStorageValue = storage.getItem(SELECTOR);
       if (selectorInputValue === selectorStorageValue) {
         console.log('You won');
-        storage.setItem(
-          CURRENT_LEVEL,
-          Number(storage.getItem(CURRENT_LEVEL)) + 1
-        );
+        if (
+          Number(storage.getItem(CURRENT_LEVEL)) >=
+          this.configLevel.length - 1
+        ) {
+          storage.setItem(CURRENT_LEVEL, this.configLevel.length - 1);
+        } else {
+          storage.setItem(
+            CURRENT_LEVEL,
+            Number(storage.getItem(CURRENT_LEVEL)) + 1
+          );
+        }
         this.table.gameSelectors.forEach((item) => {
           this.setAnimation('clean', item);
         });
-        this.isWinEvent();
+        setTimeout(() => this.isWinEvent(), 1000);
       } else {
         this.setAnimation('shake', this.viewerWrapper.node);
       }
@@ -75,7 +88,7 @@ export class App extends BaseComponent {
     element: T
   ): void {
     element.classList.add(className);
-    element.onanimationend = (): void => element.classList.remove(className);
+    // element.onanimationend = (): void => element.classList.remove(className);
   }
 
   private isWinEvent(): void {

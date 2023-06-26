@@ -22,7 +22,6 @@ export class LevelList extends BaseComponent {
       children: [ListHeader, levelItemWrapper]
     });
     this.render();
-    this.bindButtonEvent();
     document.addEventListener('isWin', () => {
       this.reRender();
     });
@@ -41,6 +40,7 @@ export class LevelList extends BaseComponent {
         this.currentLevel = levelItem;
       }
       levelItemWrapper.node.append(levelItem.node);
+      this.bindButtonEvent();
     });
   }
   private reRender(): void {
@@ -48,21 +48,26 @@ export class LevelList extends BaseComponent {
     this.render();
   }
   private bindButtonEvent(): void {
+    const levelFromStorage = Number(storage.getItem(CURRENT_LEVEL));
     const [leftBtn, rightBtn] = [leftButton.node, rightButton.node];
     leftBtn.onclick = (): void => {
-      storage.setItem(
-        CURRENT_LEVEL,
-        Number(storage.getItem(CURRENT_LEVEL)) - 1
-      );
+      if (levelFromStorage <= 0) {
+        storage.setItem(CURRENT_LEVEL, 0);
+      } else {
+        console.log(levelFromStorage);
+        storage.setItem(CURRENT_LEVEL, levelFromStorage - 1);
+      }
       document.dispatchEvent(new CustomEvent('changelvl'));
       this.reRender();
     };
 
     rightBtn.onclick = (): void => {
-      storage.setItem(
-        CURRENT_LEVEL,
-        Number(storage.getItem(CURRENT_LEVEL)) + 1
-      );
+      if (levelFromStorage >= this.configLevel.length - 1) {
+        storage.setItem(CURRENT_LEVEL, this.configLevel.length - 1);
+      } else {
+        console.log(levelFromStorage);
+        storage.setItem(CURRENT_LEVEL, levelFromStorage + 1);
+      }
       document.dispatchEvent(new CustomEvent('changelvl'));
       this.reRender();
     };

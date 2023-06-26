@@ -4,6 +4,7 @@
 
 /* eslint-disable prefer-const */
 import { BaseComponent, storage } from '@/core';
+import { MarkupObserver } from '@/core/markup-observer/MarkupObserver';
 
 import {
   GAME_CONFIG,
@@ -20,7 +21,6 @@ const hljs = require('highlight.js/lib/core');
 hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'));
 
 export class HTMLViewer extends BaseComponent {
-  private currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
   private counter: number = 0;
   constructor() {
@@ -43,8 +43,6 @@ export class HTMLViewer extends BaseComponent {
         })
       ]
     });
-    // const level = this.configLevel[this.currentLevel];
-    // this.createMarkupViewer(level, markupObserversWrapper);
     this.render();
 
     document.addEventListener('isWin', () => {
@@ -79,7 +77,7 @@ export class HTMLViewer extends BaseComponent {
       return pre;
     }
     let templateTextContent;
-    if (item.children?.length && item.className.length) {
+    if (item.className.length) {
       templateTextContent = `<${item.tagName} class='${item.className}'>`;
     } else if (item.children?.length) {
       templateTextContent = `<${item.tagName}>`;
@@ -93,16 +91,8 @@ export class HTMLViewer extends BaseComponent {
     hljs.highlightElement(code);
     return pre;
   }
-  private createElementObserver(): BaseComponent {
-    const markupObserver = new BaseComponent({
-      tagName: 'div',
-      classList: ['markup_code']
-    });
-    markupObserver.node.style.paddingLeft = `${this.counter / 3}rem`;
-    // TODO: ПОТОМ это удалить
-    markupObserver.node.id = `${this.counter}`;
-    this.bindMouseEvent(markupObserver, this.counter);
-    this.bindEventListener(markupObserver, this.counter);
+  private createElementObserver(eventName: string): BaseComponent {
+    const markupObserver = new MarkupObserver(this.counter);
     this.counter += 1;
     return markupObserver;
   }
@@ -112,7 +102,10 @@ export class HTMLViewer extends BaseComponent {
   ): void {
     level.forEach((item, index) => {
       const preElement = this.createCodeHighlightWrapper(item);
-      const markupObserver = this.createElementObserver();
+      const markupObserver = this.createElementObserver(
+        `hoverByTable-${this.counter}`
+      );
+      markupObserver.node.style.paddingLeft = `1rem`;
       markupObserver.node.append(preElement);
       parent.append(markupObserver);
       if (item.children && item.children.length > 0) {
@@ -121,30 +114,5 @@ export class HTMLViewer extends BaseComponent {
         markupObserver.node.append(preElementEnd);
       }
     });
-  }
-
-  private bindEventListener(elem: BaseComponent, index: number): void {
-    document.addEventListener(`hoverByTable-${index}`, (e) => {
-      console.log('element');
-      elem?.addClass('hover-viewer');
-    });
-
-    document.addEventListener(`cancelHoverByTable-${index}`, () => {
-      console.log('element');
-      elem?.removeClass('hover-viewer');
-    });
-  }
-
-  private bindMouseEvent(elem: BaseComponent, index: number): void {
-    elem.node.onmouseover = (e): void => {
-      e.stopPropagation();
-      elem?.addClass('hover-viewer');
-      document.dispatchEvent(new CustomEvent(`hoverByViewer-${index}`));
-    };
-
-    elem.node.onmouseout = (): void => {
-      elem?.removeClass('hover-viewer');
-      document.dispatchEvent(new CustomEvent(`cancelHoverByViewer-${index}`));
-    };
   }
 }
