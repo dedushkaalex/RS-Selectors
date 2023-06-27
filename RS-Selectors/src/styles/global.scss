@@ -180,3 +180,10 @@ python {
   0% {   transform: translateY(0) rotate3d(0,0,0,0deg); }
   100% { transform: translateY(-60rem) rotate3d(0,0,0,0deg);}
 }
+
+/* media */
+@media screen and (max-width: 1260px) {
+  html {
+    font-size: 9px;
+  }
+}

@@ -24,6 +24,9 @@ export class App extends BaseComponent {
   public viewer = new HTMLViewer();
   public editor = new Editor();
   public levelList = new LevelList();
+
+  private currentLevel =
+    storage.getItem(CURRENT_LEVEL) || storage.setItem(CURRENT_LEVEL, 0);
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
 
   private leftCol;

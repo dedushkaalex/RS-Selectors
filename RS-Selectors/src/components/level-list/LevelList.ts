@@ -43,10 +43,10 @@ export class LevelList extends BaseComponent {
           (l) => l.lvl === index && l.isHelp
         );
         if (correctLvl) {
+          levelItem.removeClass(styles['correct-help']);
           levelItem.removeClass(styles['not-correct']);
           levelItem.addClass(styles.correct);
         } else if (correctHelpLvl) {
-          levelItem.removeClass(styles['correct-help']);
           levelItem.addClass(styles['correct-help']);
         }
       }
