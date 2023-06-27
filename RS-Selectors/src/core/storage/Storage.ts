@@ -21,7 +21,7 @@ class Storage {
    * @param {string} key - The key of the item to be retrieved
    * @returns {any} - The value of the item, or null if the item is not found
    */
-  public getItem(key: string): unknown {
+  public getItem<T>(key: string): T {
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : null;
   }

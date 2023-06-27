@@ -7,38 +7,36 @@ code.hljs {
 }
 .hljs {
   background: transparent;
-  /* color: #a39e9b; */
-  /* margin-top: 30px; */
+  color: #b45418;
   padding: 0.1rem;
   text-align: left;
 }
 .hljs-comment,
 .hljs-quote {
-  color: #8d8687;
+  color: #1db445;
 }
+.hljs-attr,
+.hljs-number,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-pseudo,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable {
+  color: #d19a66;
+}
+.hljs-bullet,
 .hljs-link,
 .hljs-meta,
-.hljs-name,
-.hljs-regexp,
-.hljs-selector-class,
 .hljs-selector-id,
-.hljs-tag,
-.hljs-template-variable,
-.hljs-variable {
-  color: #ef6155;
+.hljs-symbol,
+.hljs-title {
+  color: #61aeee;
 }
 .hljs-built_in,
-.hljs-deletion,
-.hljs-literal,
-.hljs-number,
-.hljs-params,
-.hljs-type {
-  color: #f99b15;
-}
-.hljs-attribute,
-.hljs-section,
-.hljs-title {
-  color: #fec418;
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+  color: #e6c07b;
 }
 .hljs-addition,
 .hljs-bullet,

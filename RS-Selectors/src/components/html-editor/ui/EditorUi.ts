@@ -22,6 +22,17 @@ export const enterButton = new BaseComponent({
   textContent: 'enter'
 });
 
+export const inputCodeHighlight = new BaseComponent({
+  tagName: 'code',
+  classList: ['language-css']
+});
+
+const inputCodePre = new BaseComponent({
+  tagName: 'pre',
+  classList: [styles['input-code']],
+  children: [inputCodeHighlight]
+});
+
 export const inputWrapper = new BaseComponent({
   tagName: 'div',
   classList: [styles.input__wrapper]

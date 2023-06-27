@@ -1,3 +1,6 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
 .game-wrapper {
   -webkit-perspective: 40rem;
   transform: translate3d(0,0,0);
@@ -33,9 +36,7 @@
 
 .table-surface {
   box-shadow: 0 4rem 1rem rgba(0,0,0,.2);
-  background: #dd992d;
-  background: -webkit-linear-gradient(#dd992d,#cd8c26);
-  background: linear-gradient(#dd992d,#cd8c26);
+  background: $table-surface;
   position: absolute;
   height: 100%;
   bottom: 0;
@@ -49,7 +50,7 @@
 .table-edge  {
   max-width: 75rem;
   margin: 0 auto 1rem auto;
-  background: #ac741c;
+  background: $table-edge;
   height: 1.5rem;
   transform: rotateX(-40deg);
   transform-origin: top;
@@ -59,7 +60,7 @@
 .table-leg {
   width: 2.4rem;
   height: 1rem;
-  background: #84570f;
+  background: $table-leg;
   position: absolute;
   top: 1.5rem;
 }
@@ -113,14 +114,14 @@ tag:after {
 
 @keyframes slide {
   0% {
-    transform: translateY(-20px);
+    transform: translateY(-2rem);
     animation-timing-function: ease-out;
   }
   50% {
-    transform: translateY(2px) rotate(-4deg);
+    transform: translateY(0.2rem) rotate(-4deg);
     animation-timing-function: ease-in;
   }
   100% {
-    transform: translateY(0px) rotate(-4deg);
+    transform: translateY(0rem) rotate(-4deg);
   }
 }

@@ -60,7 +60,7 @@ export class HTMLViewer extends BaseComponent {
     this.createMarkupViewer(level, markupObserversWrapper);
   }
 
-  private reRender(): void {
+  public reRender(): void {
     this.clear(markupObserversWrapper);
     this.render();
   }

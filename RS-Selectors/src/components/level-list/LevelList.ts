@@ -10,7 +10,8 @@ import styles from './LevelList.module.scss';
 
 import { levelItemWrapper } from './ui/level-item-wrapper';
 import { ListHeader, leftButton, rightButton } from './ui/list-header';
-import { CURRENT_LEVEL } from '@/constants/gameConstants';
+import { CURRENT_LEVEL, PROGRESS } from '@/constants/gameConstants';
+import { ProgressItem } from '@/types/types';
 
 export class LevelList extends BaseComponent {
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
@@ -29,12 +30,26 @@ export class LevelList extends BaseComponent {
 
   public render(): void {
     const currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
+    const progress: ProgressItem[] = storage.getItem(PROGRESS);
     LEVEL_DESCRIPTION.forEach((item, index) => {
       const levelItem = new BaseComponent({
         tagName: 'div',
-        classList: [styles['level-item']],
+        classList: [styles['level-item'], styles['not-correct']],
         textContent: `Level ${index + 1}: ${item.name}`
       });
+      if (progress && progress.length > 0) {
+        const correctLvl = progress.find((l) => l.lvl === index && !l.isHelp);
+        const correctHelpLvl = progress.find(
+          (l) => l.lvl === index && l.isHelp
+        );
+        if (correctLvl) {
+          levelItem.removeClass(styles['not-correct']);
+          levelItem.addClass(styles.correct);
+        } else if (correctHelpLvl) {
+          levelItem.removeClass(styles['correct-help']);
+          levelItem.addClass(styles['correct-help']);
+        }
+      }
       if (index === currentLevel) {
         levelItem.addClass(styles.currentLevel);
         this.currentLevel = levelItem;
@@ -43,7 +58,7 @@ export class LevelList extends BaseComponent {
       this.bindButtonEvent();
     });
   }
-  private reRender(): void {
+  public reRender(): void {
     this.clear(levelItemWrapper);
     this.render();
   }

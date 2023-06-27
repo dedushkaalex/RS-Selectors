@@ -37,7 +37,7 @@ export class Table extends BaseComponent {
     });
   }
 
-  private reRender(): void {
+  public reRender(): void {
     this.clear(this.table);
     this.render();
   }
@@ -78,6 +78,7 @@ export class Table extends BaseComponent {
         const childElements = this.createDOMElements(children);
         childElements.forEach((childElement, index) => {
           element.appendChild(childElement);
+          childElement.style.zIndex = `${index + 2}`;
           if (i % 2 !== 0) {
             childElement.style.rotate = '20deg';
             childElement.style.transform = 'translateY(-1rem)';

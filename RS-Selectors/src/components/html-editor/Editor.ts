@@ -1,4 +1,6 @@
-import { BaseComponent } from '@/core';
+import { BaseComponent, storage } from '@/core';
+
+import { setAnimation } from '@/utils/setAnimation';
 
 import styles from './Editor.module.scss';
 
@@ -7,9 +9,11 @@ import {
   createLineNumbers,
   editorHeader,
   enterButton,
+  inputCodeHighlight,
   inputStrobe,
   inputWrapper
 } from './ui';
+import { SELECTOR } from '@/constants/gameConstants';
 
 const hljs = require('highlight.js/lib/core');
 hljs.registerLanguage('css', require('highlight.js/lib/languages/css'));
@@ -17,6 +21,8 @@ hljs.registerLanguage('css', require('highlight.js/lib/languages/css'));
 export class Editor extends BaseComponent {
   protected enterButton = enterButton;
   protected inputStrobe = inputStrobe;
+
+  public isHelp = false;
   constructor() {
     super({
       tagName: 'div',
@@ -27,15 +33,35 @@ export class Editor extends BaseComponent {
     this.inputStrobe.node.onkeydown = (e): void => {
       const target = e as KeyboardEvent;
       if (target.code === 'Enter') {
-        console.log(this.inputStrobe.node.value);
-        document.dispatchEvent(
-          new CustomEvent('sendResultAnswer', {
-            detail: {
-              value: this.inputStrobe.node.value
-            }
-          })
-        );
+        this.customEventSendResultAnswer();
       }
     };
+    this.enterButton.node.onclick = (): void => {
+      this.customEventSendResultAnswer();
+    };
+    this.inputStrobe.node.oninput = (): void => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      inputCodeHighlight.node.textContent = this.inputStrobe.node.value;
+      hljs.highlightElement(inputCodeHighlight.node);
+    };
+
+    document.addEventListener('help', () => {
+      this.isHelp = true;
+      this.inputStrobe.node.value = String(storage.getItem(SELECTOR));
+      setAnimation(styles.typing, this.inputStrobe.node);
+    });
+  }
+
+  private customEventSendResultAnswer(): void {
+    document.dispatchEvent(
+      new CustomEvent('sendResultAnswer', {
+        detail: {
+          value: this.inputStrobe.node.value,
+          isHelp: this.isHelp
+        }
+      })
+    );
+    this.inputStrobe.node.value = '';
+    this.isHelp = false;
   }
 }

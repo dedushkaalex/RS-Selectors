@@ -10,18 +10,20 @@ import {
   PropsCreateDOMElements
 } from '@/config/tableTemplateConfig';
 
+import { setAnimation } from '@/utils/setAnimation';
+
 import { Table } from '@/components';
-import { CURRENT_LEVEL, SELECTOR } from '@/constants/gameConstants';
+import { CURRENT_LEVEL, PROGRESS, SELECTOR } from '@/constants/gameConstants';
 import { Header } from '@/layout';
+import { ProgressItem } from '@/types/types';
+import { helpButton } from '@/ui/help-button/HelpButton';
+import { resetButton } from '@/ui/reset-button/ResetButton';
 
 export class App extends BaseComponent {
   public table = new Table();
   public viewer = new HTMLViewer();
   public editor = new Editor();
   public levelList = new LevelList();
-
-  private currentLevel =
-    storage.getItem(CURRENT_LEVEL) || storage.setItem(CURRENT_LEVEL, 0);
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
 
   private leftCol;
@@ -42,16 +44,17 @@ export class App extends BaseComponent {
     this.leftCol = new BaseComponent({
       tagName: 'div',
       classList: ['left-col'],
-      children: [new Header(), this.table, this.viewerWrapper]
+      children: [new Header(), this.table, helpButton, this.viewerWrapper]
     });
     this.rightCol = new BaseComponent({
       tagName: 'div',
       classList: ['right-col'],
-      children: [this.levelList]
+      children: [this.levelList, resetButton]
     });
     this.node.append(this.leftCol.node);
     this.node.append(this.rightCol.node);
     this.bindEditorEventListener();
+    this.clearProgressEventListener();
   }
 
   private bindEditorEventListener(): void {
@@ -59,9 +62,19 @@ export class App extends BaseComponent {
       const target = e as CustomEvent;
 
       const selectorInputValue = target.detail.value;
+      const isHelpBtn = target.detail.isHelp;
       const selectorStorageValue = storage.getItem(SELECTOR);
       if (selectorInputValue === selectorStorageValue) {
         console.log('You won');
+        let progress: ProgressItem[] = storage.getItem(PROGRESS);
+        if (!progress) progress = [];
+        console.log(progress);
+        progress.push({
+          correct: true,
+          isHelp: isHelpBtn,
+          lvl: Number(storage.getItem(CURRENT_LEVEL))
+        });
+        storage.setItem(PROGRESS, progress);
         if (
           Number(storage.getItem(CURRENT_LEVEL)) >=
           this.configLevel.length - 1
@@ -74,24 +87,26 @@ export class App extends BaseComponent {
           );
         }
         this.table.gameSelectors.forEach((item) => {
-          this.setAnimation('clean', item);
+          setAnimation('clean', item);
         });
+
         setTimeout(() => this.isWinEvent(), 1000);
       } else {
-        this.setAnimation('shake', this.viewerWrapper.node);
+        setAnimation('shake', this.viewerWrapper.node);
       }
     });
   }
 
-  private setAnimation<T extends HTMLElement>(
-    className: string,
-    element: T
-  ): void {
-    element.classList.add(className);
-    // element.onanimationend = (): void => element.classList.remove(className);
-  }
-
   private isWinEvent(): void {
     document.dispatchEvent(new CustomEvent('isWin'));
+  }
+
+  private clearProgressEventListener(): void {
+    document.addEventListener('reset', () => {
+      storage.clear();
+      this.table.reRender();
+      this.viewer.reRender();
+      this.levelList.reRender();
+    });
   }
 }

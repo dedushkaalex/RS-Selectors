@@ -52,11 +52,25 @@
  color: inherit;
  padding: 0 0.5rem;
  background-color: transparent;
+ position: relative;
  @include transition(all 0.5s);
  &:hover {
   color: $white;
   text-shadow: 0 0 0.4rem $white;
  }
+}
+.level-item.not-correct:before,
+.level-item.correct:before,
+.level-item.correct-help:before
+ {
+  content: '\2713';
+  margin-right: 1rem;
+}
+.level-item.correct:before {
+  color: green;
+}
+.level-item.correct-help:before {
+  color: yellow;
 }
 .currentLevel {
   background-color: rgba($gray, 0.5);
