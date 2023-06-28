@@ -84,7 +84,7 @@ export class Table extends BaseComponent {
             childElement.style.transform = 'translateY(-1rem)';
           }
           if (i % 2 === 0) {
-            childElement.style.rotate = '-40deg';
+            childElement.style.rotate = '-20deg';
             childElement.style.transform = 'translateY(-1rem)';
           }
         });
@@ -100,7 +100,6 @@ export class Table extends BaseComponent {
     const currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
 
     const gameElements = this.createDOMElements(this.configLevel[currentLevel]);
-    console.log(gameElements);
 
     const { node } = this.table;
 
@@ -125,7 +124,6 @@ export class Table extends BaseComponent {
     });
 
     document.addEventListener(`cancelHoverByViewer-${index}`, () => {
-      console.log('element');
       elem.classList.remove('hovered');
       this.helper.removeClass('show');
     });

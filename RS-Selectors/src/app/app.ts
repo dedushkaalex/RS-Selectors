@@ -4,6 +4,7 @@ import { createDOMElements } from '@/core/render-table-elements/renderTableEleme
 import { Editor } from '@/components/html-editor/Editor';
 import { HTMLViewer } from '@/components/html-viewer/HTMLViewer';
 import { LevelList } from '@/components/level-list/LevelList';
+import { Popup } from '@/components/modal/Modal';
 
 import {
   GAME_CONFIG,
@@ -35,7 +36,8 @@ export class App extends BaseComponent {
   constructor() {
     super({
       tagName: 'div',
-      classList: ['main']
+      classList: ['main'],
+      children: [Popup]
     });
 
     this.viewerWrapper = new BaseComponent({
@@ -58,6 +60,7 @@ export class App extends BaseComponent {
     this.node.append(this.rightCol.node);
     this.bindEditorEventListener();
     this.clearProgressEventListener();
+    // this.append(this.modal);
   }
 
   private bindEditorEventListener(): void {
@@ -70,12 +73,16 @@ export class App extends BaseComponent {
       if (selectorInputValue === selectorStorageValue) {
         console.log('You won');
         let progress: ProgressItem[] = storage.getItem(PROGRESS);
+        const lvl = Number(storage.getItem(CURRENT_LEVEL));
         if (!progress) progress = [];
         console.log(progress);
+        progress = progress.filter(
+          (completeLevel) => completeLevel.lvl !== lvl
+        );
         progress.push({
           correct: true,
           isHelp: isHelpBtn,
-          lvl: Number(storage.getItem(CURRENT_LEVEL))
+          lvl
         });
         storage.setItem(PROGRESS, progress);
         if (

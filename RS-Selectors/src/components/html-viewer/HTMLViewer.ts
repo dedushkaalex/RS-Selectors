@@ -1,8 +1,3 @@
-/* eslint-disable max-lines-per-function */
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-/* eslint-disable prefer-const */
 import { BaseComponent, storage } from '@/core';
 import { MarkupObserver } from '@/core/markup-observer/MarkupObserver';
 
