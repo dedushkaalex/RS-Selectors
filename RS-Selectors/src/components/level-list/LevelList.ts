@@ -1,4 +1,5 @@
 import { BaseComponent, storage } from '@/core';
+import { Store } from '@/core/store/Store';
 
 import {
   GAME_CONFIG,
@@ -15,21 +16,32 @@ import { ProgressItem } from '@/types/types';
 
 export class LevelList extends BaseComponent {
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
-  private currentLevel: BaseComponent | undefined = undefined;
+  private currentLevelConfig: BaseComponent | undefined = undefined;
+
+  private store = Store.getInstance();
   constructor() {
     super({
       tagName: 'div',
       classList: [styles['level-list']],
       children: [ListHeader, levelItemWrapper]
     });
+    this.store.addObserver(this);
     this.render();
     document.addEventListener('isWin', () => {
       this.reRender();
     });
   }
 
+  public update(): void {
+    this.reRender();
+  }
+
   public render(): void {
-    const currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
+    const {
+      state: { level: currentLevel }
+    } = this.store;
+    console.log(`currentLevel ${currentLevel}`);
+
     const progress: ProgressItem[] = storage.getItem(PROGRESS);
     LEVEL_DESCRIPTION.forEach((item, index) => {
       const levelItem = new BaseComponent({
@@ -52,7 +64,7 @@ export class LevelList extends BaseComponent {
       }
       if (index === currentLevel) {
         levelItem.addClass(styles.currentLevel);
-        this.currentLevel = levelItem;
+        this.currentLevelConfig = levelItem;
       }
       levelItemWrapper.node.append(levelItem.node);
       this.bindButtonEvent();
@@ -63,28 +75,26 @@ export class LevelList extends BaseComponent {
     this.render();
   }
   private bindButtonEvent(): void {
-    const levelFromStorage = Number(storage.getItem(CURRENT_LEVEL));
+    const {
+      state: { level: currentLevel }
+    } = this.store;
     const [leftBtn, rightBtn] = [leftButton.node, rightButton.node];
     leftBtn.onclick = (): void => {
-      if (levelFromStorage <= 0) {
-        storage.setItem(CURRENT_LEVEL, 0);
+      if (currentLevel <= 0) {
+        this.store.updateLevel(0);
       } else {
-        console.log(levelFromStorage);
-        storage.setItem(CURRENT_LEVEL, levelFromStorage - 1);
+        console.log(currentLevel);
+        this.store.updateLevel(currentLevel - 1);
       }
-      document.dispatchEvent(new CustomEvent('changelvl'));
-      this.reRender();
     };
 
     rightBtn.onclick = (): void => {
-      if (levelFromStorage >= this.configLevel.length - 1) {
-        storage.setItem(CURRENT_LEVEL, this.configLevel.length - 1);
+      if (currentLevel >= this.configLevel.length - 1) {
+        this.store.updateLevel(this.configLevel.length - 1);
       } else {
-        console.log(levelFromStorage);
-        storage.setItem(CURRENT_LEVEL, levelFromStorage + 1);
+        console.log(currentLevel);
+        this.store.updateLevel(this.store.state.level + 1);
       }
-      document.dispatchEvent(new CustomEvent('changelvl'));
-      this.reRender();
     };
   }
 }

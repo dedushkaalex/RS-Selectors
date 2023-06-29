@@ -1,5 +1,6 @@
 import { BaseComponent, storage } from '@/core';
 import { createDOMElements } from '@/core/render-table-elements/renderTableElements';
+import { Store } from '@/core/store/Store';
 
 import { Editor } from '@/components/html-editor/Editor';
 import { HTMLViewer } from '@/components/html-viewer/HTMLViewer';
@@ -26,8 +27,7 @@ export class App extends BaseComponent {
   public editor = new Editor();
   public levelList = new LevelList();
 
-  private currentLevel =
-    storage.getItem(CURRENT_LEVEL) || storage.setItem(CURRENT_LEVEL, 0);
+  private store = Store.getInstance();
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
 
   private leftCol;
@@ -56,11 +56,16 @@ export class App extends BaseComponent {
       classList: ['right-col'],
       children: [this.levelList, resetButton]
     });
+
     this.node.append(this.leftCol.node);
     this.node.append(this.rightCol.node);
     this.bindEditorEventListener();
     this.clearProgressEventListener();
-    // this.append(this.modal);
+
+    window.onbeforeunload = (): void => {
+      const { level } = this.store.state;
+      storage.setItem(CURRENT_LEVEL, level);
+    };
   }
 
   private bindEditorEventListener(): void {
@@ -73,28 +78,23 @@ export class App extends BaseComponent {
       if (selectorInputValue === selectorStorageValue) {
         console.log('You won');
         let progress: ProgressItem[] = storage.getItem(PROGRESS);
-        const lvl = Number(storage.getItem(CURRENT_LEVEL));
+        const { level } = this.store.state;
         if (!progress) progress = [];
         console.log(progress);
         progress = progress.filter(
-          (completeLevel) => completeLevel.lvl !== lvl
+          (completeLevel) => completeLevel.lvl !== level
         );
         progress.push({
           correct: true,
           isHelp: isHelpBtn,
-          lvl
+          lvl: level
         });
         storage.setItem(PROGRESS, progress);
-        if (
-          Number(storage.getItem(CURRENT_LEVEL)) >=
-          this.configLevel.length - 1
-        ) {
-          storage.setItem(CURRENT_LEVEL, this.configLevel.length - 1);
+        this.store.updateLevel(level);
+        if (level >= this.configLevel.length - 1) {
+          this.store.updateLevel(this.configLevel.length - 1);
         } else {
-          storage.setItem(
-            CURRENT_LEVEL,
-            Number(storage.getItem(CURRENT_LEVEL)) + 1
-          );
+          this.store.updateLevel(level + 1);
         }
         this.table.gameSelectors.forEach((item) => {
           setAnimation('clean', item);
@@ -114,9 +114,10 @@ export class App extends BaseComponent {
   private clearProgressEventListener(): void {
     document.addEventListener('reset', () => {
       storage.clear();
-      this.table.reRender();
-      this.viewer.reRender();
-      this.levelList.reRender();
+      this.store.updateLevel(0);
+      this.table.update();
+      this.viewer.update();
+      this.levelList.update();
     });
   }
 }

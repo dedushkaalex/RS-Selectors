@@ -1,4 +1,5 @@
 import { BaseComponent, storage } from '@/core';
+import { Store } from '@/core/store/Store';
 
 import {
   GAME_CONFIG,
@@ -19,6 +20,8 @@ export class Table extends BaseComponent {
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
   private counter = 0;
 
+  private store = Store.getInstance();
+
   public gameSelectors: HTMLElement[] = [];
   constructor() {
     super({
@@ -27,14 +30,16 @@ export class Table extends BaseComponent {
       children: [helper, tableWrapper, tableEdge]
     });
 
+    this.store.addObserver(this);
+
     this.render();
     document.addEventListener('isWin', () => {
       this.reRender();
     });
+  }
 
-    document.addEventListener('changelvl', () => {
-      this.reRender();
-    });
+  public update(): void {
+    this.reRender();
   }
 
   public reRender(): void {
@@ -97,7 +102,7 @@ export class Table extends BaseComponent {
   }
 
   private render(): void {
-    const currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
+    const currentLevel = this.store.state.level;
 
     const gameElements = this.createDOMElements(this.configLevel[currentLevel]);
 

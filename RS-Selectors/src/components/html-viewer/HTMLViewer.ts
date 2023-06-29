@@ -1,5 +1,6 @@
 import { BaseComponent, storage } from '@/core';
 import { MarkupObserver } from '@/core/markup-observer/MarkupObserver';
+import { Store } from '@/core/store/Store';
 
 import {
   GAME_CONFIG,
@@ -18,6 +19,8 @@ hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'));
 export class HTMLViewer extends BaseComponent {
   private configLevel: PropsCreateDOMElements[][] = GAME_CONFIG;
   private counter: number = 0;
+
+  private store = Store.getInstance();
   constructor() {
     super({
       tagName: 'div',
@@ -40,17 +43,19 @@ export class HTMLViewer extends BaseComponent {
     });
     this.render();
 
-    document.addEventListener('isWin', () => {
-      this.reRender();
-    });
+    this.store.addObserver(this);
 
-    document.addEventListener('changelvl', () => {
+    document.addEventListener('isWin', () => {
       this.reRender();
     });
   }
 
+  public update(): void {
+    this.reRender();
+  }
+
   private render(): void {
-    const currentLevel = Number(storage.getItem(CURRENT_LEVEL)) || 0;
+    const currentLevel = this.store.state.level;
     const level = this.configLevel[currentLevel];
     this.createMarkupViewer(level, markupObserversWrapper);
   }

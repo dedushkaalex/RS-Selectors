@@ -1,4 +1,4 @@
-class Storage {
+export class Storage {
   /**
    * Saves an item in localstorage with the provided key and value
    * @param {string} key - The key under which the value will be
