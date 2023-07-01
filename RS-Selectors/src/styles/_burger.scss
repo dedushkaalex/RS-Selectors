@@ -1,0 +1,58 @@
+/*burger*/
+.burger-button {
+  outline: none;
+  background-color: transparent;
+  border: none;
+  position: relative;
+  width: 30px;
+  height: 22px;
+  display: none;
+  z-index: 11;
+  cursor: pointer;
+
+  span {
+    position: absolute;
+    z-index: 500;
+    transform: translateY(-50%);
+    background-color: $color-primary;
+    top: calc(50% - 1px);
+    left: 0;
+    width: 100%;
+    height: 2px;
+
+    &:nth-child(1) {
+      top: 0;
+    }
+
+    &:nth-child(3) {
+      top: auto;
+      bottom: 0;
+    }
+  }
+}
+
+
+
+@media screen and (max-width: 830px) {
+  .burger-button {
+    display: block;
+    transition: 0.7s ease-in;
+  }
+
+  .burger-button._active {
+    transform: rotate(90deg);
+  }
+  .lock {
+    overflow: hidden !important;
+    &:before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      background-color: rgba(0,0,0, 0.5);
+    }
+  }
+}

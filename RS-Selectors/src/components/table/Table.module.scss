@@ -125,3 +125,8 @@ tag:after {
     transform: translateY(0rem) rotate(-4deg);
   }
 }
+@media screen and (max-width: 1000px) {
+  .table {
+    white-space: wrap;
+  }
+}

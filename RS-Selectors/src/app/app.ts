@@ -66,6 +66,11 @@ export class App extends BaseComponent {
       const { level } = this.store.state;
       storage.setItem(CURRENT_LEVEL, level);
     };
+
+    document.addEventListener('show-menu', () => {
+      this.rightCol.node.classList.toggle('active');
+      this.leftCol.node.classList.toggle('lock');
+    });
   }
 
   private bindEditorEventListener(): void {

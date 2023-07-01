@@ -48,3 +48,9 @@
   }
   border-right: 1px solid $gray;
 }
+
+@media screen and (max-width: 1000px) {
+  .html__viewer {
+   width: 100%;
+  }
+}

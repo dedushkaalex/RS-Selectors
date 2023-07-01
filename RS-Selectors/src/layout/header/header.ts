@@ -5,6 +5,8 @@ import styles from './header.module.scss';
 import github from '../../assets/images/icon/github.svg';
 import mail from '../../assets/images/icon/mail.svg';
 
+import { burger } from '@/ui/burger/Burger';
+
 export class Header extends BaseComponent {
   constructor() {
     super({
@@ -22,12 +24,12 @@ export class Header extends BaseComponent {
     const headerTitle = new BaseComponent({
       tagName: 'a',
       classList: [styles['header-title']],
-      textContent: 'CSS Dinner'
+      textContent: 'CSS Books'
     });
     const headerNav = new BaseComponent({
       tagName: 'nav',
       classList: [styles.nav],
-      children: [headerTitle, menuList]
+      children: [headerTitle, menuList, burger]
     });
 
     headerTitle.node.href = '#';
