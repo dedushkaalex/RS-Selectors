@@ -12,7 +12,7 @@ export class MarkupObserver extends BaseComponent {
       this.cancelHandleEvent
     );
     // TODO: ПОТОМ это удалить
-    this.node.id = `${this.counter}`;
+    // this.node.id = `${this.counter}`;
     this.node.onmouseover = this.onMouseOverEvent;
 
     this.node.onmouseout = this.onMouseOutEvent;

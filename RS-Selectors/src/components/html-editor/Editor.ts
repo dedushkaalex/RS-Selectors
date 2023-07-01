@@ -19,8 +19,8 @@ const hljs = require('highlight.js/lib/core');
 hljs.registerLanguage('css', require('highlight.js/lib/languages/css'));
 
 export class Editor extends BaseComponent {
-  protected enterButton = enterButton;
-  protected inputStrobe = inputStrobe;
+  public enterButton = enterButton;
+  public inputStrobe = inputStrobe;
 
   public isHelp = false;
   constructor() {
@@ -52,7 +52,7 @@ export class Editor extends BaseComponent {
     });
   }
 
-  private customEventSendResultAnswer(): void {
+  public customEventSendResultAnswer(): void {
     document.dispatchEvent(
       new CustomEvent('sendResultAnswer', {
         detail: {

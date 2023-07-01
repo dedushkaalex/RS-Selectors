@@ -66,16 +66,3 @@ export class Store {
     this.observers = this.observers.filter((obs) => obs !== observer);
   }
 }
-
-// /* eslint-disable no-underscore-dangle */
-// export const store = {
-//   _currentLevelGame: 0,
-//   set currentLevelGame(value: number) {
-//     this._currentLevelGame = value;
-//     console.log(this._currentLevelGame);
-//   },
-
-//   get currentLevelGame(): number {
-//     return this._currentLevelGame;
-//   }
-// };

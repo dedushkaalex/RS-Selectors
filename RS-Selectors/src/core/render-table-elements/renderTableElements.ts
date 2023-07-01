@@ -1,7 +1,6 @@
 type PropsCreateDOMElements = {
   tagName: string;
   className: string[];
-  textContent?: string;
   children?: PropsCreateDOMElements[];
 };
 let counter = 0;
