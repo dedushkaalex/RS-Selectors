@@ -32,8 +32,6 @@ export class Store {
         value
       ): boolean => {
         target[property] = value;
-        console.log(this.state.level, 's');
-
         this.notifyAll();
         return true;
       }
@@ -56,7 +54,6 @@ export class Store {
 
   public updateLevel(currentLevel: number): void {
     this.state.level = currentLevel;
-    console.log(this.state);
   }
 
   public addObserver(observer: Observer): void {

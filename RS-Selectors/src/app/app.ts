@@ -81,11 +81,9 @@ export class App extends BaseComponent {
       const isHelpBtn = target.detail.isHelp;
       const selectorStorageValue = storage.getItem(SELECTOR);
       if (selectorInputValue === selectorStorageValue) {
-        console.log('You won');
         let progress: ProgressItem[] = storage.getItem(PROGRESS);
         const { level } = this.store.state;
         if (!progress) progress = [];
-        console.log(progress);
         progress = progress.filter(
           (completeLevel) => completeLevel.lvl !== level
         );

@@ -40,7 +40,6 @@ export class LevelList extends BaseComponent {
     const {
       state: { level: currentLevel }
     } = this.store;
-    console.log(`currentLevel ${currentLevel}`);
 
     const progress: ProgressItem[] = storage.getItem(PROGRESS);
     LEVEL_DESCRIPTION.forEach((item, index) => {
@@ -83,7 +82,6 @@ export class LevelList extends BaseComponent {
       if (currentLevel <= 0) {
         this.store.updateLevel(0);
       } else {
-        console.log(currentLevel);
         this.store.updateLevel(currentLevel - 1);
       }
     };
@@ -92,7 +90,6 @@ export class LevelList extends BaseComponent {
       if (currentLevel >= this.configLevel.length - 1) {
         this.store.updateLevel(this.configLevel.length - 1);
       } else {
-        console.log(currentLevel);
         this.store.updateLevel(this.store.state.level + 1);
       }
     };
